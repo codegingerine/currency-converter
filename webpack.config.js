@@ -16,6 +16,7 @@ module.exports = {
       Utils: path.resolve(__dirname, "app/utils"),
       Components: path.resolve(__dirname, "app/src/Components"),
       View: path.resolve(__dirname, "app/src/View"),
+      Assets: path.resolve(__dirname, "app/src/assets"),
       Styles: path.resolve(__dirname, "app/src/styles")
     },
   },
@@ -42,9 +43,4 @@ module.exports = {
       },
     ],
   },
-  // performance: {
-  //   hints: false,
-  //   maxEntrypointSize: 303000,
-  //   maxAssetSize: 303000
-  // },
 };

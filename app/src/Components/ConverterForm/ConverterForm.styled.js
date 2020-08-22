@@ -11,16 +11,20 @@ export const FieldItemStyled = styled.div`
   display: flex;
   align-items: center;
 
-  &:not(last-child) {
+  &: (first-child) {
     margin-bottom: 27px;
   }
 `;
 
-export const FieldStyled = styled(Field)`
+export const InputStyled = styled(Field).attrs(() => ({
+  component: "input",
+  type: "number",
+}))`
   width: 100%;
+  font-family: "Open Sans", sans-serif;
   font-size: 20px;
   color: #454860;
-  ${({result}) => result && `font-weight: 700;`}
+  ${({ result }) => result && `font-weight: 700;`}
   line-height: 27px;
   border: solid #a3b1c6;
   border-width: 0 0 2px 0;
@@ -31,14 +35,12 @@ export const FieldStyled = styled(Field)`
 
   &::placeholder,
   &::-webkit-input-placeholder {
-    font-family: "Open Sans", sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
     color: #c2cbd9;
   }
   &:-ms-input-placeholder {
-    font-family: "Open Sans", sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 22px;
@@ -53,7 +55,7 @@ export const ButtonStyled = styled.button`
           background: #c2cbd9;
         `
       : css`
-          background: linear-gradient(99deg, #3578EB 0%, #1C5CC5 100%);
+          background: linear-gradient(99deg, #3578eb 0%, #1c5cc5 100%);
         `};
   width: 100%;
   font-family: "Open Sans", sans-serif;
