@@ -14,36 +14,39 @@ const BASE_URL = "https://api.exchangeratesapi.io/latest";
 
 const ConverterForm = () => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [selectValueFrom, setSelectValueFrom] = useState("");
-  const [selectValueTo, setSelectValueTo] = useState("");
+  const [initialCurrencyFrom, setInitialCurrencyFrom] = useState();
+  const [initialCurrencyTo, setInitialCurrencyTo] = useState();
+  const [currencyFrom, setCurrencyFrom] = useState("");
+  const [currencyTo, setCurrencyTo] = useState("");
 
-  const refSelectValueFrom = useRef();
-  const refSelectValueTo = useRef();
+  const refCurrencyFrom = useRef();
+  const refCurrencyTo = useRef();
 
   useEffect(() => {
     fetch(BASE_URL)
       .then((res) => res.json())
       .then((data) => {
+        const initValueFrom = Object.keys(data.rates)[19];
         setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
-        // console.log("data::::", data);
+        setInitialCurrencyFrom(initValueFrom);
+        setInitialCurrencyTo(data.base);
+        // console.log("data:", data);
       });
   }, []);
 
   useEffect(() => {
-    setSelectValueFrom(refSelectValueFrom.current.value);
-    setSelectValueTo(refSelectValueTo.current.value);
+    setCurrencyFrom(refCurrencyFrom.current.value);
+    setCurrencyTo(refCurrencyTo.current.value);
   });
 
-  const handleSelectValueFrom = (e) => {
+  const handleCurrencyFrom = (e) => {
     e.preventDefault();
-    setSelectValueFrom(refSelectValueFrom.current.value);
-    refSelectValueFrom.current.value;
+    setCurrencyFrom(refCurrencyFrom.current.value);
   };
 
-  const handleSelectValueTo = (e) => {
+  const handleCurrencyTo = (e) => {
     e.preventDefault();
-    setSelectValueTo(refSelectValueTo.current.value);
-    refSelectValueTo.current.value;
+    setCurrencyTo(refCurrencyTo.current.value);
   };
 
   // avoid multiple submit
@@ -59,23 +62,22 @@ const ConverterForm = () => {
   return (
     <Form
       onSubmit={onSubmit}
-      initialValueFrom={currencyOptions[20]}
-      initialValueTo={currencyOptions[0]}
-      render={({
-        handleSubmit,
-        values,
-        pristine,
-        submitting,
-        initialValueFrom,
-        initialValueTo,
-      }) => (
+      initialValues={{
+        convertFrom: initialCurrencyFrom,
+        convertTo: initialCurrencyTo,
+      }}
+      render={({ handleSubmit, values, pristine, submitting }) => (
         <FormStyled onSubmit={handleSubmit}>
           <FieldItemStyled>
-            <FieldCurrency currency={selectValueFrom} />
-            <InputStyled name="to convert" placeholder="Wpisz kwotę" required />
+            <FieldCurrency currency={currencyFrom} />
+            <InputStyled
+              name="valueToConvert"
+              placeholder="Wpisz kwotę"
+              required
+            />
           </FieldItemStyled>
           <FieldItemStyled>
-            <FieldCurrency currency={selectValueTo} />
+            <FieldCurrency currency={currencyTo} />
             <InputStyled
               name="result"
               placeholder="Wynik"
@@ -85,12 +87,12 @@ const ConverterForm = () => {
           </FieldItemStyled>
           <FieldSelectBox
             currencyOptionsMapped={currencyOptions}
-            initialValueFrom={initialValueFrom}
-            initialValueTo={initialValueTo}
-            refFrom={refSelectValueFrom}
-            refTo={refSelectValueTo}
-            onClickFrom={handleSelectValueFrom}
-            onClickTo={handleSelectValueTo}
+            nameFrom="convertFrom"
+            nameTo="convertTo"
+            refFrom={refCurrencyFrom}
+            refTo={refCurrencyTo}
+            onClickFrom={handleCurrencyFrom}
+            onClickTo={handleCurrencyTo}
           />
           <ButtonStyled type="submit" disabled={pristine || submitting}>
             Konwertuj

@@ -16,8 +16,8 @@ const FieldSelectBox = React.forwardRef(
   (
     {
       currencyOptionsMapped,
-      initialValueFrom,
-      initialValueTo,
+      nameFrom,
+      nameTo,
       refFrom,
       refTo,
       onClickFrom,
@@ -26,20 +26,10 @@ const FieldSelectBox = React.forwardRef(
     ref
   ) => (
     <SelecBoxtWrapper>
-      <SelectStyled
-        name="convert from"
-        initialValue={initialValueFrom}
-        ref={refFrom}
-        onClick={onClickFrom}
-      >
+      <SelectStyled name={nameFrom} ref={refFrom} onClick={onClickFrom}>
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
-      <SelectStyled
-        name="convert to"
-        initialValue={initialValueTo}
-        ref={refTo}
-        onClick={onClickTo}
-      >
+      <SelectStyled name={nameTo} ref={refTo} onClick={onClickTo}>
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
     </SelecBoxtWrapper>
@@ -48,8 +38,8 @@ const FieldSelectBox = React.forwardRef(
 
 FieldSelectBox.propTypes = {
   currencyOptionsMapped: PropTypes.array.isRequired,
-  initialValueFrom: PropTypes.string,
-  initialValueTo: PropTypes.string,
+  nameFrom: PropTypes.string.isRequired,
+  nameTo: PropTypes.string.isRequired,
   refFrom: PropTypes.object.isRequired,
   refTo: PropTypes.object.isRequired,
   onClickFrom: PropTypes.func.isRequired,
