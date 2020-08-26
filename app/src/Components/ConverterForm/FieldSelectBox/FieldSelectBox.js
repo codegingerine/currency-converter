@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { SelecBoxtWrapper, SelectStyled } from "./FieldSelectBox.styled";
+import SwitchData from "./SwitchData";
+import { SelectBoxtWrapper, SelectStyled } from "./FieldSelectBox.styled";
 
 const Options = ({ currencyOptionsMapped }) => (
   <>
@@ -22,17 +23,27 @@ const FieldSelectBox = React.forwardRef(
       refTo,
       onClickFrom,
       onClickTo,
+      onClickSwitch
     },
     ref
   ) => (
-    <SelecBoxtWrapper>
-      <SelectStyled name={nameFrom} ref={refFrom} onClick={onClickFrom}>
+    <SelectBoxtWrapper>
+      <SelectStyled
+        name={nameFrom}
+        ref={refFrom}
+        onClick={onClickFrom}
+      >
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
-      <SelectStyled name={nameTo} ref={refTo} onClick={onClickTo}>
+      <SwitchData onClick={onClickSwitch} />
+      <SelectStyled
+        name={nameTo}
+        ref={refTo}
+        onClick={onClickTo}
+      >
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
-    </SelecBoxtWrapper>
+    </SelectBoxtWrapper>
   )
 );
 
@@ -40,10 +51,11 @@ FieldSelectBox.propTypes = {
   currencyOptionsMapped: PropTypes.array.isRequired,
   nameFrom: PropTypes.string.isRequired,
   nameTo: PropTypes.string.isRequired,
-  refFrom: PropTypes.object.isRequired,
-  refTo: PropTypes.object.isRequired,
+  refFrom: PropTypes.object,
+  refTo: PropTypes.object,
   onClickFrom: PropTypes.func.isRequired,
   onClickTo: PropTypes.func.isRequired,
+  onClickSwitch: PropTypes.func.isRequired,
 };
 
 export default FieldSelectBox;

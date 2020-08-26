@@ -14,46 +14,55 @@ const BASE_URL = "https://api.exchangeratesapi.io/latest";
 
 const ConverterForm = () => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [initialCurrencyFrom, setInitialCurrencyFrom] = useState();
-  const [initialCurrencyTo, setInitialCurrencyTo] = useState();
   const [currencyFrom, setCurrencyFrom] = useState("");
   const [currencyTo, setCurrencyTo] = useState("");
-
-  const refCurrencyFrom = useRef();
-  const refCurrencyTo = useRef();
+  const [amount, setAmount] = useState();
+  const [convertedAmount, setConvertedAmount] = useState();
 
   useEffect(() => {
     fetch(BASE_URL)
       .then((res) => res.json())
       .then((data) => {
         const initValueFrom = Object.keys(data.rates)[19];
-        setCurrencyOptions([data.base, ...Object.keys(data.rates)]);
-        setInitialCurrencyFrom(initValueFrom);
-        setInitialCurrencyTo(data.base);
+        setCurrencyOptions([data.base, ...Object.keys(data.rates)].sort());
+        setCurrencyFrom(data.base);
+        setCurrencyTo(initValueFrom);
         // console.log("data:", data);
       });
   }, []);
 
-  useEffect(() => {
-    setCurrencyFrom(refCurrencyFrom.current.value);
-    setCurrencyTo(refCurrencyTo.current.value);
-  });
-
-  const handleCurrencyFrom = (e) => {
-    e.preventDefault();
-    setCurrencyFrom(refCurrencyFrom.current.value);
+  const handleConvert = () => {
+    fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const convertedAmount = amount * data.rates[currencyTo];
+        setConvertedAmount(convertedAmount);
+      });
   };
 
-  const handleCurrencyTo = (e) => {
-    e.preventDefault();
-    setCurrencyTo(refCurrencyTo.current.value);
+  const handleSelectValueFrom = (e) => {
+    setCurrencyFrom(e.target.value);
+  };
+
+  const handleSelectValueTo = (e) => {
+    setCurrencyTo(e.target.value);
+  };
+
+  const handleInputValueFrom = (e) => {
+    setAmount(e.target.value);
+  };
+
+  const handleSwitch = (e) => {
+    setCurrencyFrom(currencyTo);
+    setCurrencyTo(currencyFrom);
+    handleConvert();
   };
 
   // avoid multiple submit
   const onSubmit = (values) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        window.alert(JSON.stringify(values, 0, 2));
+        // window.alert(JSON.stringify(values, 0, 2));
         resolve();
       }, 1000);
     });
@@ -63,8 +72,10 @@ const ConverterForm = () => {
     <Form
       onSubmit={onSubmit}
       initialValues={{
-        convertFrom: initialCurrencyFrom,
-        convertTo: initialCurrencyTo,
+        convertFrom: currencyFrom,
+        convertTo: currencyTo,
+        valueToConvert: amount,
+        result: convertedAmount,
       }}
       render={({ handleSubmit, values, pristine, submitting }) => (
         <FormStyled onSubmit={handleSubmit}>
@@ -73,6 +84,8 @@ const ConverterForm = () => {
             <InputStyled
               name="valueToConvert"
               placeholder="Wpisz kwotę"
+              value={amount}
+              onChange={handleInputValueFrom}
               required
             />
           </FieldItemStyled>
@@ -82,19 +95,22 @@ const ConverterForm = () => {
               name="result"
               placeholder="Wynik"
               readOnly
-              result="true"
+              value={convertedAmount}
             />
           </FieldItemStyled>
           <FieldSelectBox
             currencyOptionsMapped={currencyOptions}
             nameFrom="convertFrom"
             nameTo="convertTo"
-            refFrom={refCurrencyFrom}
-            refTo={refCurrencyTo}
-            onClickFrom={handleCurrencyFrom}
-            onClickTo={handleCurrencyTo}
+            onClickFrom={handleSelectValueFrom}
+            onClickTo={handleSelectValueTo}
+            onClickSwitch={handleSwitch}
           />
-          <ButtonStyled type="submit" disabled={pristine || submitting}>
+          <ButtonStyled
+            type="button"
+            disabled={submitting}
+            onClick={handleConvert}
+          >
             Konwertuj
           </ButtonStyled>
           {/* <pre

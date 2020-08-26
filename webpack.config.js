@@ -17,7 +17,7 @@ module.exports = {
       Components: path.resolve(__dirname, "app/src/Components"),
       View: path.resolve(__dirname, "app/src/View"),
       Assets: path.resolve(__dirname, "app/src/assets"),
-      Styles: path.resolve(__dirname, "app/src/styles")
+      Styles: path.resolve(__dirname, "app/src/styles"),
     },
   },
   plugins: [new HtmlWebpackPlugin({ template: "public/index.html" })],
@@ -29,6 +29,10 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
+      },
+      {
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
       },
       {
         test: /\.s[ac]ss$/i,

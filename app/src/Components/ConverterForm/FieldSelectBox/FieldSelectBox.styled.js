@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Field } from "react-final-form";
 
-export const SelecBoxtWrapper = styled.div`
+export const SelectBoxtWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 50px;
 `;
 
