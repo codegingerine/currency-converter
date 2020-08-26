@@ -18,7 +18,7 @@ export const FieldItemStyled = styled.div`
 
 export const InputStyled = styled(Field).attrs(() => ({
   component: "input",
-  type: "number",
+  type: "tel",
 }))`
   width: 100%;
   font-family: "Open Sans", sans-serif;

@@ -23,21 +23,34 @@ const ConverterForm = () => {
     fetch(BASE_URL)
       .then((res) => res.json())
       .then((data) => {
-        const initValueFrom = Object.keys(data.rates)[19];
+        const initCurrencyFrom = Object.keys(data.rates)[19];
         setCurrencyOptions([data.base, ...Object.keys(data.rates)].sort());
         setCurrencyFrom(data.base);
-        setCurrencyTo(initValueFrom);
+        setCurrencyTo(initCurrencyFrom);
         // console.log("data:", data);
       });
   }, []);
 
   const handleConvert = () => {
-    fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const convertedAmount = amount * data.rates[currencyTo];
-        setConvertedAmount(convertedAmount);
-      });
+    if (amount != null) {
+      fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const convertedAmount = amount * data.rates[currencyTo];
+          setConvertedAmount(convertedAmount.toFixed(2));
+        });
+    }
+  };
+
+  const handleConvertReverse = () => {
+    if (amount != null) {
+      fetch(`${BASE_URL}?base=${currencyTo}&symbols=${currencyFrom}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const convertedAmount = amount * data.rates[currencyFrom];
+          setConvertedAmount(convertedAmount.toFixed(2));
+        });
+    }
   };
 
   const handleSelectValueFrom = (e) => {
@@ -52,10 +65,15 @@ const ConverterForm = () => {
     setAmount(e.target.value);
   };
 
-  const handleSwitch = (e) => {
-    setCurrencyFrom(currencyTo);
-    setCurrencyTo(currencyFrom);
-    handleConvert();
+  const handleSwitch = () => {
+    if (amount != null && convertedAmount != null) {
+      setCurrencyFrom(currencyTo);
+      setCurrencyTo(currencyFrom);
+      handleConvertReverse();
+    } else {
+      setCurrencyFrom(currencyTo);
+      setCurrencyTo(currencyFrom);
+    }
   };
 
   // avoid multiple submit
@@ -96,6 +114,7 @@ const ConverterForm = () => {
               placeholder="Wynik"
               readOnly
               value={convertedAmount}
+              result="true"
             />
           </FieldItemStyled>
           <FieldSelectBox
