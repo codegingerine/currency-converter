@@ -126,7 +126,7 @@ const ConverterForm = () => {
                     />
                     <InputStyled
                       {...input}
-                      type="tel"
+                      type="text"
                       placeholder="Wpisz kwotę"
                       value={amount}
                       onChange={handleInputValueFrom}
