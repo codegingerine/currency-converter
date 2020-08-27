@@ -109,7 +109,7 @@ const ConverterForm = () => {
           errors.valueToConvert = "Pole nie może być puste";
         } else if (isNaN(values.valueToConvert)) {
           errors.valueToConvert = "Nieprawidłowa wartość";
-        } else if ( amount == 0 ) {
+        } else if ( amount == 0 || amount < 0 ) {
           errors.valueToConvert = "Wartość pola musi być większa od zera";
         } else if ( currencyFrom === currencyTo) {
           errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
