@@ -21,6 +21,7 @@ const ConverterForm = () => {
   const [currencyTo, setCurrencyTo] = useState("");
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState();
+  const [isToggled, setIsToggled] = useState(false);
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -81,7 +82,8 @@ const ConverterForm = () => {
     } else {
       setCurrencyFrom(currencyTo);
       setCurrencyTo(currencyFrom);
-    }
+    };
+    setIsToggled(!isToggled)
   };
 
   // avoid multiple submit
@@ -163,6 +165,7 @@ const ConverterForm = () => {
             onClickFrom={handleSelectValueFrom}
             onClickTo={handleSelectValueTo}
             onClickSwitch={handleSwitch}
+            swapArrows={isToggled}
           />
           <ButtonStyled
             type="button"

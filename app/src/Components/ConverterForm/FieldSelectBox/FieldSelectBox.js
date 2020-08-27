@@ -23,24 +23,17 @@ const FieldSelectBox = React.forwardRef(
       refTo,
       onClickFrom,
       onClickTo,
-      onClickSwitch
+      onClickSwitch,
+      swapArrows,
     },
     ref
   ) => (
     <SelectBoxtWrapper>
-      <SelectStyled
-        name={nameFrom}
-        ref={refFrom}
-        onClick={onClickFrom}
-      >
+      <SelectStyled name={nameFrom} ref={refFrom} onClick={onClickFrom}>
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
-      <SwitchData onClick={onClickSwitch} />
-      <SelectStyled
-        name={nameTo}
-        ref={refTo}
-        onClick={onClickTo}
-      >
+      <SwitchData onClick={onClickSwitch} swapArrows={swapArrows} />
+      <SelectStyled name={nameTo} ref={refTo} onClick={onClickTo}>
         <Options currencyOptionsMapped={currencyOptionsMapped} />
       </SelectStyled>
     </SelectBoxtWrapper>
@@ -56,6 +49,7 @@ FieldSelectBox.propTypes = {
   onClickFrom: PropTypes.func.isRequired,
   onClickTo: PropTypes.func.isRequired,
   onClickSwitch: PropTypes.func.isRequired,
+  swapArrows: PropTypes.bool,
 };
 
 export default FieldSelectBox;

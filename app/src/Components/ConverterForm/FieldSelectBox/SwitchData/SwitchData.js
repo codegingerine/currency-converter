@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SwitchStyled, SwitchLeftStyled, SwitchRightStyled } from './SwitchData.styled';
 
-const SwitchData = ({ onClick }) => {
+const SwitchData = ({ onClick, swapArrows }) => {
   return (
-    <SwitchStyled onClick={onClick}>
+    <SwitchStyled onClick={onClick} swapArrows={swapArrows}>
       <SwitchRightStyled />
       <SwitchLeftStyled />
     </SwitchStyled>
@@ -12,7 +12,12 @@ const SwitchData = ({ onClick }) => {
 };
 
 SwitchData.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  swapArrows: PropTypes.bool,
+};
+
+SwitchData.defaultProps = {
+  swapArrows: false
 }
 
 export default SwitchData;
