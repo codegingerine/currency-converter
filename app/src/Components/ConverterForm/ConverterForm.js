@@ -70,6 +70,7 @@ const ConverterForm = () => {
 
   const handleInputValueFrom = (e) => {
     setAmount(e.target.value);
+    setConvertedAmount();
   };
 
   const handleSwitch = () => {
