@@ -5,4 +5,5 @@ export const FieldCurrencyItem = styled.span`
   right: 12px;
   color: #c2cbd9;
   line-height: 22px;
+  ${({ hasError }) => hasError && `color: #e82b52;`}
 `;

@@ -115,18 +115,22 @@ const ConverterForm = () => {
       render={({ handleSubmit, values, pristine, submitting }) => (
         <FormStyled onSubmit={handleSubmit}>
           <FieldItemStyled>
-            <FieldCurrency currency={currencyFrom} />
             <FieldInputHtmlStyled
               name="valueToConvert"
               render={({ input, meta }) => {
                 return (
                   <>
+                    <FieldCurrency
+                      currency={currencyFrom}
+                      hasError={meta.error && meta.touched && true}
+                    />
                     <InputStyled
                       {...input}
                       type="tel"
                       placeholder="Wpisz kwotę"
                       value={amount}
                       onChange={handleInputValueFrom}
+                      hasError={meta.error && meta.touched && true}
                     />
                     {meta.error && meta.touched && (
                       <InputError>{meta.error}</InputError>

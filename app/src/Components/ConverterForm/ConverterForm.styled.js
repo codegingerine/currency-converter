@@ -50,12 +50,11 @@ export const FieldInputStyled = styled(Field)`
   ${({ result }) => result && `font-weight: 700;`}
 `;
 
-
-export const FieldInputHtmlStyled = styled(Field)`
-`;
+export const FieldInputHtmlStyled = styled(Field)``;
 
 export const InputStyled = styled.input`
   ${InputMix}
+  ${({ hasError }) => hasError && `color: #e82b52; border-color: #e82b52;`}
 `;
 
 export const InputError = styled.span`
