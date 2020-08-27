@@ -60,10 +60,12 @@ const ConverterForm = () => {
 
   const handleSelectValueFrom = (e) => {
     setCurrencyFrom(e.target.value);
+    setConvertedAmount();
   };
 
   const handleSelectValueTo = (e) => {
     setCurrencyTo(e.target.value);
+    setConvertedAmount();
   };
 
   const handleInputValueFrom = (e) => {
