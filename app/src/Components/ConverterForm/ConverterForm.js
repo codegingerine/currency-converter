@@ -35,7 +35,7 @@ const ConverterForm = () => {
   }, []);
 
   const handleConvert = () => {
-    if (amount != null) {
+    if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
         .then((res) => res.json())
         .then((data) => {
@@ -48,7 +48,7 @@ const ConverterForm = () => {
   };
 
   const handleConvertReverse = () => {
-    if (amount != null) {
+    if (amount != null  && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyTo}&symbols=${currencyFrom}`)
         .then((res) => res.json())
         .then((data) => {
@@ -109,6 +109,10 @@ const ConverterForm = () => {
           errors.valueToConvert = "Pole nie może być puste";
         } else if (isNaN(values.valueToConvert)) {
           errors.valueToConvert = "Nieprawidłowa wartość";
+        } else if ( amount == 0 ) {
+          errors.valueToConvert = "Wartość pola musi być większa od zera";
+        } else if ( currencyFrom === currencyTo) {
+          errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
         }
         return errors;
       }}
