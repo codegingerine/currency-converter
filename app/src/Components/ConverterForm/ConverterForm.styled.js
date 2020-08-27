@@ -9,22 +9,19 @@ export const FormStyled = styled.form`
 export const FieldItemStyled = styled.div`
   position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 
-  &: (first-child) {
+  &:first-child {
     margin-bottom: 27px;
   }
 `;
 
-export const InputStyled = styled(Field).attrs(() => ({
-  component: "input",
-  type: "tel",
-}))`
+const InputMix = css`
   width: 100%;
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   color: #454860;
-  ${({ result }) => result && `font-weight: 700;`}
   line-height: 27px;
   border: solid #a3b1c6;
   border-width: 0 0 2px 0;
@@ -46,6 +43,29 @@ export const InputStyled = styled(Field).attrs(() => ({
     line-height: 22px;
     color: #c2cbd9;
   }
+`;
+
+export const FieldInputStyled = styled(Field)`
+  ${InputMix}
+  ${({ result }) => result && `font-weight: 700;`}
+`;
+
+
+export const FieldInputHtmlStyled = styled(Field)`
+`;
+
+export const InputStyled = styled.input`
+  ${InputMix}
+`;
+
+export const InputError = styled.span`
+  position: absolute;
+  bottom: -18px;
+  color: #e82b52;
+  font-size: 12px;
+  line-height: 17px;
+  padding: 0 12px;
+  z-index: 1;
 `;
 
 export const ButtonStyled = styled.button`

@@ -6,7 +6,10 @@ import FieldSelectBox from "./FieldSelectBox";
 import {
   FormStyled,
   FieldItemStyled,
+  FieldInputStyled,
+  FieldInputHtmlStyled,
   InputStyled,
+  InputError,
   ButtonStyled,
 } from "./ConverterForm.styled";
 
@@ -16,7 +19,7 @@ const ConverterForm = () => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [currencyFrom, setCurrencyFrom] = useState("");
   const [currencyTo, setCurrencyTo] = useState("");
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState();
 
   useEffect(() => {
@@ -37,7 +40,9 @@ const ConverterForm = () => {
         .then((res) => res.json())
         .then((data) => {
           const convertedAmount = amount * data.rates[currencyTo];
-          setConvertedAmount(convertedAmount.toFixed(2));
+          if (convertedAmount > 0) {
+            setConvertedAmount(convertedAmount.toFixed(2));
+          }
         });
     }
   };
@@ -95,22 +100,45 @@ const ConverterForm = () => {
         valueToConvert: amount,
         result: convertedAmount,
       }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.valueToConvert) {
+          errors.valueToConvert = "Pole nie może być puste";
+        } else if (isNaN(values.valueToConvert)) {
+          errors.valueToConvert = "Nieprawidłowa wartość";
+        }
+        return errors;
+      }}
       render={({ handleSubmit, values, pristine, submitting }) => (
         <FormStyled onSubmit={handleSubmit}>
           <FieldItemStyled>
             <FieldCurrency currency={currencyFrom} />
-            <InputStyled
+            <FieldInputHtmlStyled
               name="valueToConvert"
-              placeholder="Wpisz kwotę"
-              value={amount}
-              onChange={handleInputValueFrom}
-              required
+              render={({ input, meta }) => {
+                return (
+                  <>
+                    <InputStyled
+                      {...input}
+                      type="tel"
+                      placeholder="Wpisz kwotę"
+                      value={amount}
+                      onChange={handleInputValueFrom}
+                    />
+                    {meta.error && meta.touched && (
+                      <InputError>{meta.error}</InputError>
+                    )}
+                  </>
+                );
+              }}
             />
           </FieldItemStyled>
           <FieldItemStyled>
             <FieldCurrency currency={currencyTo} />
-            <InputStyled
+            <FieldInputStyled
               name="result"
+              component="input"
+              type="tel"
               placeholder="Wynik"
               readOnly
               value={convertedAmount}
@@ -132,16 +160,6 @@ const ConverterForm = () => {
           >
             Konwertuj
           </ButtonStyled>
-          {/* <pre
-            style={{
-              marginTop: "50px",
-              background: "silver",
-              padding: "5px",
-              fontSize: "12px"
-            }}
-          >
-            {JSON.stringify(values, 0, 2)}
-          </pre> */}
         </FormStyled>
       )}
     />
