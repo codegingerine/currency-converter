@@ -168,7 +168,7 @@ const ConverterForm = () => {
             swapArrows={isToggled}
           />
           <ButtonStyled
-            type="button"
+            type="submit"
             disabled={submitting}
             onClick={handleConvert}
           >
