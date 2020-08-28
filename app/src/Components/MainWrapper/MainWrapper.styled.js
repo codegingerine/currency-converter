@@ -7,7 +7,6 @@ export const MainStyled = styled.main`
   align-items: center;
   justify-content: left;
   background: #f6f7f9;
-  padding: 20px;
 
   &:before {
     content: "";
@@ -22,8 +21,6 @@ export const MainStyled = styled.main`
 
 export const MainContentStyled = styled.div`
   display: flex;
-  margin-left: 622px;
-  box-shadow: 10px 15px 50px #4548604d;
   border-radius: 20px;
   z-index: 1;
 `;

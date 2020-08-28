@@ -1,15 +1,18 @@
 import React from "react";
 import MainWrapper from "Components/MainWrapper";
-import MenuWrapper from "Components/MenuWrapper";
 import ConverterBox from "Components/ConverterBox";
-import {} from "./History.styled";
+import { MenuWrapperStyled, HistoryWrapper } from "./History.styled";
 
 const History = () => {
+  
   return (
     <MainWrapper>
-      <MenuWrapper closeIcon>
+      <MenuWrapperStyled closeIcon>
         <ConverterBox />
-      </MenuWrapper>
+        <HistoryWrapper>
+
+        </HistoryWrapper>
+      </MenuWrapperStyled>
     </MainWrapper>
   );
 };

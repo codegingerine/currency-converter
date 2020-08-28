@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import Header from "Components/Header";
 import { MenuWrapperStyled, MenuStyled } from "./MenuWrapper.styled";
 
-const MenuWrapper = ({ children, closeIcon }) => {
+const MenuWrapper = ({ children, closeIcon, className }) => {
   return (
-    <MenuWrapperStyled>
+    <MenuWrapperStyled className={className}>
       {children}
       <MenuStyled>
         <Header closeIcon={closeIcon} />
