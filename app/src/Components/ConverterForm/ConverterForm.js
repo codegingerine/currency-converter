@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { Form } from "react-final-form";
 import FieldCurrency from "./FieldCurrency";
@@ -82,17 +82,16 @@ const ConverterForm = () => {
     } else {
       setCurrencyFrom(currencyTo);
       setCurrencyTo(currencyFrom);
-    };
-    setIsToggled(!isToggled)
+    }
+    setIsToggled(!isToggled);
   };
 
-  // avoid multiple submit
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        // window.alert(JSON.stringify(values, 0, 2));
+        handleConvert();
         resolve();
-      }, 1000);
+      }, 500);
     });
   };
 
@@ -167,11 +166,7 @@ const ConverterForm = () => {
             onClickSwitch={handleSwitch}
             swapArrows={isToggled}
           />
-          <ButtonStyled
-            type="submit"
-            disabled={submitting}
-            onClick={handleConvert}
-          >
+          <ButtonStyled type="submit" disabled={submitting}>
             Konwertuj
           </ButtonStyled>
         </FormStyled>

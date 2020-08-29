@@ -7,7 +7,6 @@ export const MenuWrapperStyled = styled(MenuWrapper)`
 `;
 
 export const HistoryWrapper = styled.div`
-  width: 452px;
   height: 100%;
   padding: 90px 23px 58px 50px;
 `;
