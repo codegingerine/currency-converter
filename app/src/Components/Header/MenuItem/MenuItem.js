@@ -20,7 +20,7 @@ const MenuItem = ({ exact, to, label, icon, onClick }) => {
 MenuItem.propTypes = {
   to: PropTypes.string.isRequired,
   exact: PropTypes.bool,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   icon: PropTypes.object,
   onClick: PropTypes.func,
 };

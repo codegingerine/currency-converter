@@ -16,7 +16,7 @@ export const TitleFieldStyled = styled.span`
   font-weight: 700;
 
   &:first-child {
-    width: 81px;
+    width: 85px;
     margin-right: 20px;
   }
 

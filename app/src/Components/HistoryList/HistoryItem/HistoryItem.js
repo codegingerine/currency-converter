@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Moment from 'moment';
 import {
   HistoryItemStyled,
   HistoryFieldBoxStyled,
@@ -8,19 +9,19 @@ import {
   CurrencyStyled,
 } from "./HistoryItem.styled";
 
-const HistoryItem = ({ date, amountBefore, amountAfter, currencyBefore, currencyAfter }) => {
+const HistoryItem = ({ date, amount, convertedAmount, currencyFrom, currencyTo }) => {
   return (
     <HistoryItemStyled>
-      <HistoryFieldStyled>{date}</HistoryFieldStyled>
+      <HistoryFieldStyled>{Moment(date).format('MM-DD-YYYY')}</HistoryFieldStyled>
       <HistoryFieldStyled>
-        {amountBefore}{'\u00A0'}
-        <CurrencyStyled>{currencyBefore}</CurrencyStyled>
+        {amount}{'\u00A0'}
+        <CurrencyStyled>{currencyFrom}</CurrencyStyled>
       </HistoryFieldStyled>
       <HistoryFieldBoxStyled>
         <IconStyled />
         <HistoryFieldStyled>
-          {amountAfter}{'\u00A0'}
-          <CurrencyStyled>{currencyAfter}</CurrencyStyled>
+          {convertedAmount}{'\u00A0'}
+          <CurrencyStyled>{currencyTo}</CurrencyStyled>
         </HistoryFieldStyled>
       </HistoryFieldBoxStyled>
     </HistoryItemStyled>

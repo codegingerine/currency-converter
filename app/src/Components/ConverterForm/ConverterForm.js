@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
+import uuid from "uuid";
 import { Form } from "react-final-form";
 import FieldCurrency from "./FieldCurrency";
 import FieldSelectBox from "./FieldSelectBox";
@@ -13,7 +14,7 @@ import {
   InputError,
   ButtonStyled,
   Title,
-  HistoryStyled
+  HistoryStyled,
 } from "./ConverterForm.styled";
 
 const BASE_URL = "https://api.exchangeratesapi.io/latest";
@@ -25,6 +26,8 @@ const ConverterForm = ({ title, showHistory }) => {
   const [amount, setAmount] = useState("");
   const [convertedAmount, setConvertedAmount] = useState();
   const [isToggled, setIsToggled] = useState(false);
+  const [date, setDate] = useState();
+  const [itemsList, setItemsList] = useState([]);
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -34,6 +37,7 @@ const ConverterForm = ({ title, showHistory }) => {
         setCurrencyOptions([data.base, ...Object.keys(data.rates)].sort());
         setCurrencyFrom(data.base);
         setCurrencyTo(initCurrencyFrom);
+        setDate(data.date);
         // console.log("data:", data);
       });
   }, []);
@@ -49,10 +53,11 @@ const ConverterForm = ({ title, showHistory }) => {
           }
         });
     }
+    handleAddItem();
   };
 
   const handleConvertReverse = () => {
-    if (amount != null  && currencyFrom !== currencyTo) {
+    if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyTo}&symbols=${currencyFrom}`)
         .then((res) => res.json())
         .then((data) => {
@@ -60,6 +65,7 @@ const ConverterForm = ({ title, showHistory }) => {
           setConvertedAmount(convertedAmount.toFixed(2));
         });
     }
+    handleAddItem();
   };
 
   const handleSelectValueFrom = (e) => {
@@ -77,6 +83,10 @@ const ConverterForm = ({ title, showHistory }) => {
     setConvertedAmount();
   };
 
+  const handleInputValueTo = (e) => {
+    setConvertedAmount(e.target.value);
+  };
+
   const handleSwitch = () => {
     if (amount != null && convertedAmount != null) {
       setCurrencyFrom(currencyTo);
@@ -89,13 +99,26 @@ const ConverterForm = ({ title, showHistory }) => {
     setIsToggled(!isToggled);
   };
 
-  const onSubmit = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        handleConvert();
-        resolve();
-      }, 500);
+  const handleAddItem = () => {
+    const newList = itemsList.concat({
+      id: uuid.v4(),
+      date,
+      amount,
+      convertedAmount,
+      currencyFrom,
+      currencyTo,
     });
+    setItemsList(newList);
+  };
+
+  const onSubmit = () => {
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     handleConvert();
+    //     resolve();
+    //   }, 500);
+    // });
+    handleConvert();
   };
 
   return (
@@ -116,10 +139,11 @@ const ConverterForm = ({ title, showHistory }) => {
               errors.valueToConvert = "Pole nie może być puste";
             } else if (isNaN(values.valueToConvert)) {
               errors.valueToConvert = "Nieprawidłowa wartość";
-            } else if ( amount == 0 || amount < 0 ) {
+            } else if (amount == 0 || amount < 0) {
               errors.valueToConvert = "Wartość pola musi być większa od zera";
-            } else if ( currencyFrom === currencyTo) {
-              errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
+            } else if (currencyFrom === currencyTo) {
+              errors.valueToConvert =
+                "Waluty do konwersji nie mogą być takie same";
             }
             return errors;
           }}
@@ -160,6 +184,7 @@ const ConverterForm = ({ title, showHistory }) => {
                   placeholder="Wynik"
                   readOnly
                   value={convertedAmount}
+                  onChange={handleInputValueTo}
                   result="true"
                 />
               </FieldItemStyled>
@@ -179,11 +204,7 @@ const ConverterForm = ({ title, showHistory }) => {
           )}
         />
       </CalculatorStyled>
-      <HistoryStyled
-        showHistory={showHistory}
-        amountBefore={currencyFrom}
-        amountAfter={currencyTo}
-      />
+      <HistoryStyled mappedList={itemsList} showHistory={showHistory} />
     </>
   );
 };

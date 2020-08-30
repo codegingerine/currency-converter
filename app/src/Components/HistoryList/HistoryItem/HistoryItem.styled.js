@@ -24,7 +24,7 @@ export const HistoryFieldStyled = styled.p`
   font-weight: 300;
 
   &:first-child {
-    width: 81px;
+    width: 85px;
     margin-right: 20px;
   }
 
