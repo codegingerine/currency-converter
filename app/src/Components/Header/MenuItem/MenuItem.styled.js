@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavHashLink as NavLink } from 'react-router-hash-link';
 
 export const MenuItemStyled = styled.li`
   display: flex;

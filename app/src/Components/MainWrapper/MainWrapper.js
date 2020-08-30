@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MainStyled, MainContentStyled } from "./MainWrapper.styled";
 
-const MainWrapper = ({ children }) => {
+const MainWrapper = ({ children, className }) => {
   return (
-    <MainStyled>
+    <MainStyled className={className}>
       <MainContentStyled>{children}</MainContentStyled>
     </MainStyled>
   );

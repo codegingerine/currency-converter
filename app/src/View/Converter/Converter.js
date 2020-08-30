@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import Header from "Components/Header";
 import MainWrapper from "Components/MainWrapper";
-import MenuWrapper from "Components/MenuWrapper";
-import ConverterBox from "Components/ConverterBox";
+import ConverterForm from "Components/ConverterForm";
+import {
+  ConverterWrapperStyled,
+} from "./Converter.styled";
 
 const Converter = () => {
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  const handleListOpen = (e) => {
+    e.preventDefault();
+    setIsListOpen(true);
+  };
+
+  const handleListClose = (e) => {
+    e.preventDefault();
+    setIsListOpen(false);
+  };
+
   return (
     <MainWrapper>
-      <MenuWrapper>
-        <ConverterBox />
-      </MenuWrapper>
+      <ConverterWrapperStyled showHistory={!isListOpen}>
+        <ConverterForm title="Kalkulator walut" showHistory={!isListOpen} />
+        <Header
+          onListClick={handleListOpen}
+          closeIcon={isListOpen}
+          onIconClick={handleListClose}
+        />
+      </ConverterWrapperStyled>
     </MainWrapper>
   );
 };

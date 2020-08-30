@@ -1,8 +1,29 @@
 import styled, { css } from "styled-components";
 import { Field } from "react-final-form";
+import History from "Components/History";
+
+export const HistoryStyled = styled(History)`
+  ${({ showHistory }) => (showHistory ? "max-width: 0;" : "max-width: none;")}
+`;
+
+export const CalculatorStyled = styled.div`
+  position: relative;
+  width: 600px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 100px;
+`;
+
+export const Title = styled.h1`
+  color: #3578eb;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+`;
 
 export const FormStyled = styled.form`
-  background: #fff;
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
 `;
 

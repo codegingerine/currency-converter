@@ -1,7 +1,14 @@
 import styled from "styled-components";
 import CloseSvg from "Assets/svg/close-24px.svg";
 
-export const HeaderStyled = styled.header``;
+export const HeaderStyled = styled.header`
+  width: 77px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 25px;
+  padding-top: 50px;
+  border-radius: 0 20px 20px 0;
+`;
 
 export const NavStyled = styled.nav``;
 

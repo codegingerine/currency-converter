@@ -3,15 +3,27 @@ import PropTypes from "prop-types";
 import MenuItem from "./MenuItem";
 import { HeaderStyled, NavStyled, MenuStyled, Close } from "./Header.styled";
 
-const Header = ({ closeIcon }) => {
+const Header = ({ closeIcon, onIconClick, onListClick }) => {
   return (
     <HeaderStyled>
       <NavStyled>
         <MenuStyled>
-          {closeIcon && (
-            <MenuItem exact to="/" icon={<Close />} closeIcon={closeIcon} />
-          )}
-          <MenuItem to="/history" label="History" />
+        {closeIcon &&
+          <MenuItem
+            exact
+            to="/"
+            icon={<Close />}
+            closeIcon={closeIcon}
+            onClick={onIconClick}
+          />
+        }
+
+          <MenuItem
+            smooth
+            to="/#history"
+            label="History"
+            onClick={onListClick}
+          />
         </MenuStyled>
       </NavStyled>
     </HeaderStyled>
@@ -20,6 +32,8 @@ const Header = ({ closeIcon }) => {
 
 Header.propTypes = {
   closeIcon: PropTypes.bool,
+  onIconClick: PropTypes.func,
+  onListClick: PropTypes.func,
 };
 
 Header.defaultProps = {

@@ -6,9 +6,9 @@ import {
   LabelStyled,
 } from "./MenuItem.styled";
 
-const MenuItem = ({ exact, to, label, icon }) => {
+const MenuItem = ({ exact, to, label, icon, onClick }) => {
   return (
-    <MenuItemStyled>
+    <MenuItemStyled onClick={onClick}>
       <NavLinkRouterStyled exact={exact} to={to}>
         {label && <LabelStyled>{label}</LabelStyled>}
         {icon && icon}
@@ -20,8 +20,9 @@ const MenuItem = ({ exact, to, label, icon }) => {
 MenuItem.propTypes = {
   to: PropTypes.string.isRequired,
   exact: PropTypes.bool,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   icon: PropTypes.object,
+  onClick: PropTypes.func,
 };
 
 export default MenuItem;

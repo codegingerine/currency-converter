@@ -4,6 +4,7 @@ import { Form } from "react-final-form";
 import FieldCurrency from "./FieldCurrency";
 import FieldSelectBox from "./FieldSelectBox";
 import {
+  CalculatorStyled,
   FormStyled,
   FieldItemStyled,
   FieldInputStyled,
@@ -11,11 +12,13 @@ import {
   InputStyled,
   InputError,
   ButtonStyled,
+  Title,
+  HistoryStyled
 } from "./ConverterForm.styled";
 
 const BASE_URL = "https://api.exchangeratesapi.io/latest";
 
-const ConverterForm = () => {
+const ConverterForm = ({ title, showHistory }) => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [currencyFrom, setCurrencyFrom] = useState("");
   const [currencyTo, setCurrencyTo] = useState("");
@@ -96,82 +99,92 @@ const ConverterForm = () => {
   };
 
   return (
-    <Form
-      onSubmit={onSubmit}
-      initialValues={{
-        convertFrom: currencyFrom,
-        convertTo: currencyTo,
-        valueToConvert: amount,
-        result: convertedAmount,
-      }}
-      validate={(values) => {
-        const errors = {};
-        if (!values.valueToConvert) {
-          errors.valueToConvert = "Pole nie może być puste";
-        } else if (isNaN(values.valueToConvert)) {
-          errors.valueToConvert = "Nieprawidłowa wartość";
-        } else if ( amount == 0 || amount < 0 ) {
-          errors.valueToConvert = "Wartość pola musi być większa od zera";
-        } else if ( currencyFrom === currencyTo) {
-          errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
-        }
-        return errors;
-      }}
-      render={({ handleSubmit, values, pristine, submitting }) => (
-        <FormStyled onSubmit={handleSubmit}>
-          <FieldItemStyled>
-            <FieldInputHtmlStyled
-              name="valueToConvert"
-              render={({ input, meta }) => {
-                return (
-                  <>
-                    <FieldCurrency
-                      currency={currencyFrom}
-                      hasError={meta.error && meta.touched && true}
-                    />
-                    <InputStyled
-                      {...input}
-                      type="text"
-                      placeholder="Wpisz kwotę"
-                      value={amount}
-                      onChange={handleInputValueFrom}
-                      hasError={meta.error && meta.touched && true}
-                    />
-                    {meta.error && meta.touched && (
-                      <InputError>{meta.error}</InputError>
-                    )}
-                  </>
-                );
-              }}
-            />
-          </FieldItemStyled>
-          <FieldItemStyled>
-            <FieldCurrency currency={currencyTo} />
-            <FieldInputStyled
-              name="result"
-              component="input"
-              type="tel"
-              placeholder="Wynik"
-              readOnly
-              value={convertedAmount}
-              result="true"
-            />
-          </FieldItemStyled>
-          <FieldSelectBox
-            currencyOptionsMapped={currencyOptions}
-            nameFrom="convertFrom"
-            nameTo="convertTo"
-            onClickFrom={handleSelectValueFrom}
-            onClickTo={handleSelectValueTo}
-            onClickSwitch={handleSwitch}
-            swapArrows={isToggled}
-          />
-          <ButtonStyled type="submit" disabled={submitting}>
-            Konwertuj
-          </ButtonStyled>
-        </FormStyled>
-      )}
-    />
+    <>
+      <CalculatorStyled>
+        {title && <Title>{title}</Title>}
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{
+            convertFrom: currencyFrom,
+            convertTo: currencyTo,
+            valueToConvert: amount,
+            result: convertedAmount,
+          }}
+          validate={(values) => {
+            const errors = {};
+            if (!values.valueToConvert) {
+              errors.valueToConvert = "Pole nie może być puste";
+            } else if (isNaN(values.valueToConvert)) {
+              errors.valueToConvert = "Nieprawidłowa wartość";
+            } else if ( amount == 0 || amount < 0 ) {
+              errors.valueToConvert = "Wartość pola musi być większa od zera";
+            } else if ( currencyFrom === currencyTo) {
+              errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
+            }
+            return errors;
+          }}
+          render={({ handleSubmit, values, pristine, submitting }) => (
+            <FormStyled onSubmit={handleSubmit}>
+              <FieldItemStyled>
+                <FieldInputHtmlStyled
+                  name="valueToConvert"
+                  render={({ input, meta }) => {
+                    return (
+                      <>
+                        <FieldCurrency
+                          currency={currencyFrom}
+                          hasError={meta.error && meta.touched && true}
+                        />
+                        <InputStyled
+                          {...input}
+                          type="text"
+                          placeholder="Wpisz kwotę"
+                          value={amount}
+                          onChange={handleInputValueFrom}
+                          hasError={meta.error && meta.touched && true}
+                        />
+                        {meta.error && meta.touched && (
+                          <InputError>{meta.error}</InputError>
+                        )}
+                      </>
+                    );
+                  }}
+                />
+              </FieldItemStyled>
+              <FieldItemStyled>
+                <FieldCurrency currency={currencyTo} />
+                <FieldInputStyled
+                  name="result"
+                  component="input"
+                  type="tel"
+                  placeholder="Wynik"
+                  readOnly
+                  value={convertedAmount}
+                  result="true"
+                />
+              </FieldItemStyled>
+              <FieldSelectBox
+                currencyOptionsMapped={currencyOptions}
+                nameFrom="convertFrom"
+                nameTo="convertTo"
+                onClickFrom={handleSelectValueFrom}
+                onClickTo={handleSelectValueTo}
+                onClickSwitch={handleSwitch}
+                swapArrows={isToggled}
+              />
+              <ButtonStyled type="submit" disabled={submitting}>
+                Konwertuj
+              </ButtonStyled>
+            </FormStyled>
+          )}
+        />
+      </CalculatorStyled>
+      <HistoryStyled
+        showHistory={showHistory}
+        amountBefore={currencyFrom}
+        amountAfter={currencyTo}
+      />
+    </>
   );
 };
 
