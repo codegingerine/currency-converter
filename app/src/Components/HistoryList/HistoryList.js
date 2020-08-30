@@ -3,9 +3,9 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from "react-perfect-scrollbar";
 import HistoryItem from "./HistoryItem";
 import HistoryTitleBar from "./HistoryTitleBar";
-import { HistoryListStyled, HistoryItemsStyled } from "./HistoryList.styled";
+import { HistoryListStyled, HistoryItemsStyled, HistoryListClear } from "./HistoryList.styled";
 
-const HistoryList = ({ mappedList }) => {
+const HistoryList = ({ mappedList, onClearClick }) => {
   return (
     <HistoryListStyled>
       <HistoryTitleBar
@@ -36,6 +36,7 @@ const HistoryList = ({ mappedList }) => {
           )}
         </PerfectScrollbar>
       </HistoryItemsStyled>
+      <HistoryListClear onClick={onClearClick}>Wyczyść historię</HistoryListClear>
     </HistoryListStyled>
   );
 };

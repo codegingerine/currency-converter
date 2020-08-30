@@ -111,13 +111,11 @@ const ConverterForm = ({ title, showHistory }) => {
     setItemsList(newList);
   };
 
+  const handleClearList = () => {
+    setItemsList([]);
+  };
+
   const onSubmit = () => {
-    // return new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     handleConvert();
-    //     resolve();
-    //   }, 500);
-    // });
     handleConvert();
   };
 
@@ -204,7 +202,11 @@ const ConverterForm = ({ title, showHistory }) => {
           )}
         />
       </CalculatorStyled>
-      <HistoryStyled mappedList={itemsList} showHistory={showHistory} />
+      <HistoryStyled
+        mappedList={itemsList}
+        showHistory={showHistory}
+        onClearClick={handleClearList}
+      />
     </>
   );
 };
