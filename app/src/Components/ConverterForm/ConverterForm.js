@@ -206,6 +206,7 @@ const ConverterForm = ({ title, showHistory }) => {
         mappedList={itemsList}
         showHistory={showHistory}
         onClearClick={handleClearList}
+        noHistoryMsg={itemsList.length === 0 && true}
       />
     </>
   );

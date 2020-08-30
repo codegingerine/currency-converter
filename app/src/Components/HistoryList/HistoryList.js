@@ -1,11 +1,17 @@
 import React from "react";
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import PropTypes from 'prop-types';
+import "react-perfect-scrollbar/dist/css/styles.css";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import HistoryItem from "./HistoryItem";
 import HistoryTitleBar from "./HistoryTitleBar";
-import { HistoryListStyled, HistoryItemsStyled, HistoryListClear } from "./HistoryList.styled";
+import {
+  HistoryListStyled,
+  HistoryItemsStyled,
+  HistoryListClear,
+  HistoryNoMsg,
+} from "./HistoryList.styled";
 
-const HistoryList = ({ mappedList, onClearClick }) => {
+const HistoryList = ({ mappedList, onClearClick, noHistoryMsg }) => {
   return (
     <HistoryListStyled>
       <HistoryTitleBar
@@ -36,9 +42,26 @@ const HistoryList = ({ mappedList, onClearClick }) => {
           )}
         </PerfectScrollbar>
       </HistoryItemsStyled>
-      <HistoryListClear onClick={onClearClick}>Wyczyść historię</HistoryListClear>
+      {noHistoryMsg && (
+        <HistoryNoMsg >
+          Brak historii konwersji walut
+        </HistoryNoMsg>
+      )}
+      <HistoryListClear onClick={onClearClick}>
+        Wyczyść historię
+      </HistoryListClear>
     </HistoryListStyled>
   );
 };
+
+HistoryList.propTypes = {
+  mappedList: PropTypes.array.isRequired,
+  onClearClick: PropTypes.func.isRequired,
+  noHistoryMsg: PropTypes.bool.isRequired,
+}
+
+HistoryList.defaultProps = {
+  noHistoryMsg: false
+}
 
 export default HistoryList;
