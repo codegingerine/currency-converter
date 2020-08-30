@@ -3,7 +3,10 @@ import { Field } from "react-final-form";
 import History from "Components/History";
 
 export const HistoryStyled = styled(History)`
-  ${({ showHistory }) => (showHistory ? "max-width: 0;" : "max-width: none;")}
+  ${({ showHistory }) =>
+    showHistory
+      ? "max-width: 0; transition: max-width 1.2s .2s ease;"
+      : "max-width: 525px; transition: max-width 1.2s .2s ease;"}
 `;
 
 export const CalculatorStyled = styled.div`
