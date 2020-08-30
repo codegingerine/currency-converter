@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 import { Field } from "react-final-form";
-import History from "Components/History";
+import HistoryList from "Components/HistoryList";
 
-export const HistoryStyled = styled(History)`
+export const HistoryStyled = styled(HistoryList)`
   ${({ showHistory }) =>
     showHistory
       ? "max-width: 0; transition: max-width 1.2s .2s ease;"

@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
 
+export const HistoryWrapperStyled = styled.div`
+  overflow: hidden;
+  height: 100%;
+`;
+
 export const HistoryListStyled = styled.div`
   position: relative;
   display: flex;
