@@ -42,10 +42,12 @@ const ConverterForm = ({ title, showHistory }) => {
       });
   }, []);
 
+  // execute handleAddItem only after state has been changed
   useEffect(() => {
     convertedAmount > 0 && handleAddItem();
   }, [convertedAmount]);
 
+  // fire conversion on submit
   const handleConvert = () => {
     if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
@@ -59,6 +61,7 @@ const ConverterForm = ({ title, showHistory }) => {
     }
   };
 
+  // fire conversion on currency switch
   const handleConvertReverse = () => {
     if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyTo}&symbols=${currencyFrom}`)
@@ -85,6 +88,7 @@ const ConverterForm = ({ title, showHistory }) => {
     setConvertedAmount();
   };
 
+  // on currency switch
   const handleSwitch = () => {
     if (amount != null && convertedAmount != null) {
       setCurrencyFrom(currencyTo);
@@ -97,6 +101,7 @@ const ConverterForm = ({ title, showHistory }) => {
     setIsToggled(!isToggled);
   };
 
+  // add item to conversion history list
   const handleAddItem = () => {
     const item = {
       id: uuid.v4(),
@@ -109,13 +114,24 @@ const ConverterForm = ({ title, showHistory }) => {
     setItemsList((prevItemsList) => [...prevItemsList, item]);
   };
 
-  const handleClearList = () => {
-    setItemsList([]);
+  // reset conversion history list
+  const handleClearList = () => setItemsList([]);
+
+  const formValidation = (values) => {
+    const errors = {};
+    if (!values.valueToConvert) {
+      errors.valueToConvert = "Pole nie może być puste";
+    } else if (isNaN(values.valueToConvert)) {
+      errors.valueToConvert = "Nieprawidłowa wartość";
+    } else if (amount == 0 || amount < 0) {
+      errors.valueToConvert = "Wartość pola musi być większa od zera";
+    } else if (currencyFrom === currencyTo) {
+      errors.valueToConvert = "Waluty do konwersji nie mogą być takie same";
+    }
+    return errors;
   };
 
-  const onSubmit = () => {
-    handleConvert();
-  };
+  const onSubmit = () => handleConvert();
 
   return (
     <>
@@ -129,20 +145,7 @@ const ConverterForm = ({ title, showHistory }) => {
             valueToConvert: amount,
             result: convertedAmount,
           }}
-          validate={(values) => {
-            const errors = {};
-            if (!values.valueToConvert) {
-              errors.valueToConvert = "Pole nie może być puste";
-            } else if (isNaN(values.valueToConvert)) {
-              errors.valueToConvert = "Nieprawidłowa wartość";
-            } else if (amount == 0 || amount < 0) {
-              errors.valueToConvert = "Wartość pola musi być większa od zera";
-            } else if (currencyFrom === currencyTo) {
-              errors.valueToConvert =
-                "Waluty do konwersji nie mogą być takie same";
-            }
-            return errors;
-          }}
+          validate={formValidation}
           render={({ handleSubmit, values, pristine, submitting }) => (
             <FormStyled onSubmit={handleSubmit}>
               <FieldItemStyled>
