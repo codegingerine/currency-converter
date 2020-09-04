@@ -35,8 +35,7 @@ export const HistoryListClear = styled.span`
   width: 100%;
   text-decoration: underline;
   font-weight: 300;
-  opacity: 0.6;
-  cursor: pointer;
+  ${({ empty }) => (empty ? `opacity: 0.6; ` : `opacity: 1; cursor: pointer;`)}
 `;
 
 export const HistoryNoMsg = styled.span`

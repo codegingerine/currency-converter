@@ -12,7 +12,13 @@ import {
   HistoryNoMsg,
 } from "./HistoryList.styled";
 
-const HistoryList = ({ className, mappedList, onClearClick, showHistory, noHistoryMsg }) => {
+const HistoryList = ({
+  className,
+  mappedList,
+  onClearClick,
+  showHistory,
+  noHistoryMsg,
+}) => {
   return (
     <HistoryWrapperStyled showHistory={showHistory} className={className}>
       <HistoryListStyled>
@@ -47,7 +53,10 @@ const HistoryList = ({ className, mappedList, onClearClick, showHistory, noHisto
         {noHistoryMsg && (
           <HistoryNoMsg>Brak historii konwersji walut</HistoryNoMsg>
         )}
-        <HistoryListClear onClick={onClearClick}>
+        <HistoryListClear
+          onClick={onClearClick}
+          empty={mappedList.length === 0 ? true : false}
+        >
           Wyczyść historię
         </HistoryListClear>
       </HistoryListStyled>
