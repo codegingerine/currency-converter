@@ -42,6 +42,10 @@ const ConverterForm = ({ title, showHistory }) => {
       });
   }, []);
 
+  useEffect(() => {
+    convertedAmount > 0 && handleAddItem();
+  }, [convertedAmount]);
+
   const handleConvert = () => {
     if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
@@ -53,7 +57,6 @@ const ConverterForm = ({ title, showHistory }) => {
           }
         });
     }
-    handleAddItem();
   };
 
   const handleConvertReverse = () => {
@@ -65,7 +68,6 @@ const ConverterForm = ({ title, showHistory }) => {
           setConvertedAmount(convertedAmount.toFixed(2));
         });
     }
-    handleAddItem();
   };
 
   const handleSelectValueFrom = (e) => {
@@ -83,10 +85,6 @@ const ConverterForm = ({ title, showHistory }) => {
     setConvertedAmount();
   };
 
-  const handleInputValueTo = (e) => {
-    setConvertedAmount(e.target.value);
-  };
-
   const handleSwitch = () => {
     if (amount != null && convertedAmount != null) {
       setCurrencyFrom(currencyTo);
@@ -100,15 +98,15 @@ const ConverterForm = ({ title, showHistory }) => {
   };
 
   const handleAddItem = () => {
-    const newList = itemsList.concat({
+    const item = {
       id: uuid.v4(),
       date,
       amount,
       convertedAmount,
       currencyFrom,
       currencyTo,
-    });
-    setItemsList(newList);
+    };
+    setItemsList((prevItemsList) => [...prevItemsList, item]);
   };
 
   const handleClearList = () => {
@@ -182,7 +180,6 @@ const ConverterForm = ({ title, showHistory }) => {
                   placeholder="Wynik"
                   readOnly
                   value={convertedAmount}
-                  onChange={handleInputValueTo}
                   result="true"
                 />
               </FieldItemStyled>
