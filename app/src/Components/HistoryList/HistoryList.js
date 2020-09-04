@@ -12,13 +12,7 @@ import {
   HistoryNoMsg,
 } from "./HistoryList.styled";
 
-const HistoryList = ({
-  className,
-  mappedList,
-  onClearClick,
-  showHistory,
-  noHistoryMsg,
-}) => {
+const HistoryList = ({ className, mappedList, onClearClick, showHistory }) => {
   return (
     <HistoryWrapperStyled showHistory={showHistory} className={className}>
       <HistoryListStyled>
@@ -50,7 +44,7 @@ const HistoryList = ({
             )}
           </PerfectScrollbar>
         </HistoryItemsStyled>
-        {noHistoryMsg && (
+        {mappedList.length === 0 && (
           <HistoryNoMsg>Brak historii konwersji walut</HistoryNoMsg>
         )}
         <HistoryListClear
@@ -67,11 +61,6 @@ const HistoryList = ({
 HistoryList.propTypes = {
   mappedList: PropTypes.array.isRequired,
   onClearClick: PropTypes.func.isRequired,
-  noHistoryMsg: PropTypes.bool.isRequired,
-};
-
-HistoryList.defaultProps = {
-  noHistoryMsg: false,
 };
 
 export default HistoryList;
