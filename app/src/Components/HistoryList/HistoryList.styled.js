@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
+import { media } from "Utils/media";
 
 export const HistoryWrapperStyled = styled.div`
   overflow: hidden;
-  height: 100%;
 `;
 
 export const HistoryListStyled = styled.div`
@@ -10,12 +10,20 @@ export const HistoryListStyled = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 90px 23px 58px 50px;
+  padding: 62px 23px 58px 50px;
   overflow: hidden;
+
+  ${media.lg`
+    padding: 82px 23px 58px 50px;
+  `}
 `;
 
 export const HistoryItemsStyled = styled.div`
-  height: 438px;
+  height: 206px;
+
+  ${media.lg`
+    height: 414px;
+  `}
 `;
 
 const ItemMix = css`

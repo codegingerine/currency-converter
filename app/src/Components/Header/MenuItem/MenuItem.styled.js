@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "Utils/media";
 import { NavHashLink as NavLink } from 'react-router-hash-link';
 
 export const MenuItemStyled = styled.li`
@@ -7,7 +8,7 @@ export const MenuItemStyled = styled.li`
   align-items: center;
 
   &:not(last-child) {
-    margin-bottom: 9px;
+    ${media.lg`margin-bottom: 9px;`}
   }
 `;
 
@@ -18,8 +19,11 @@ export const LabelStyled = styled.span`
   line-height: 1;
   color: #ffffff;
   opacity: 0.6;
-  writing-mode: vertical-rl;
   transition: opacity 0.2s ease;
+  
+  ${media.lg`
+    writing-mode: vertical-rl;  
+  `}
 `;
 
 export const NavLinkRouterStyled = styled(NavLink)`

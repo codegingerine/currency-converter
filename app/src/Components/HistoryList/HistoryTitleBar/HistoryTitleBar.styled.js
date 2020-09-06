@@ -4,7 +4,7 @@ export const TitleBarWrapperStyled = styled.div`
   width: 452px;
   display: flex;
   align-items: center;
-  padding: 19px 14px 17px 14px;
+  padding: 18px 14px 17px 14px;
   border-bottom: 1px solid #ffffff;
 `;
 

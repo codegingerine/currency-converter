@@ -1,24 +1,55 @@
 import styled, { css } from "styled-components";
+import { media } from "Utils/media";
 import { Field } from "react-final-form";
 import HistoryList from "Components/HistoryList";
 
 export const HistoryStyled = styled(HistoryList)`
   ${({ showHistory }) =>
     showHistory
-      ? "max-width: 0; transition: max-width 1.2s .2s ease;"
-      : "max-width: 525px; transition: max-width 1.2s .2s ease;"}
+      ? css`
+        max-height: 0;
+        transition: max-height 1.2s linear;
+        ${media.lg`
+          max-height: none;
+          max-width: 0;
+          transition: max-width 1.2s .2s linear;
+        `}
+      `
+      : css`
+        max-height: none;
+        transition: max-height 1.2s .2s linear;
+        ${media.lg`
+          max-width: 525px;
+          transition: max-width 1.2s .2s linear;
+      `}
+      `
+    }
 `;
 
 export const CalculatorStyled = styled.div`
   position: relative;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   background: #fff;
   border-radius: 20px;
-  padding: 100px;
+  padding: 40px;
+  z-index: 1;
+
+  ${media.lg`
+    width: 500px;
+    padding: 100px 50px;
+  `}
+
+  ${media.xl`
+    width: 600px;
+    padding: 100px;
+  `}
 `;
 
 export const Title = styled.h1`
   color: #3578eb;
+  font-size: 32px;
+  line-height: 47px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 50px;
@@ -43,6 +74,7 @@ export const FieldItemStyled = styled.div`
 
 const InputMix = css`
   width: 100%;
+  height: 56px;
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   color: #454860;

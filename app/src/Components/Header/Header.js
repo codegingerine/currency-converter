@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import MenuItem from "./MenuItem";
 import { HeaderStyled, NavStyled, MenuStyled, Close } from "./Header.styled";
 
-const Header = ({ closeIcon, onIconClick, onListClick }) => {
+const Header = ({ className, closeIcon, onIconClick, onListClick }) => {
   return (
-    <HeaderStyled>
+    <HeaderStyled className={className}>
       <NavStyled>
         <MenuStyled>
         {closeIcon &&

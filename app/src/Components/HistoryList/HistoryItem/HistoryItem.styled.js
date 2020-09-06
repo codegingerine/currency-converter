@@ -3,9 +3,9 @@ import ArrowSvg from "Assets/svg/arrow_right_alt-24-px-b.svg";
 
 export const HistoryItemStyled = styled.div`
   width: 452px;
+  height: 52px;
   display: flex;
   align-items: center;
-  padding: 15px 14px;
   border-bottom: 1px solid #ffffff;
 `;
 

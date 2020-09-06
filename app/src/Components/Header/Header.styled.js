@@ -1,22 +1,31 @@
 import styled from "styled-components";
+import { media } from "Utils/media";
 import CloseSvg from "Assets/svg/close-24px.svg";
 
 export const HeaderStyled = styled.header`
-  width: 77px;
   display: flex;
-  justify-content: flex-end;
-  padding-right: 25px;
-  padding-top: 50px;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 25px;
   border-radius: 0 20px 20px 0;
+  
+  ${media.lg`
+    justify-content: flex-end;
+    width: 77px;
+    padding-top: 50px;
+  `}
 `;
 
 export const NavStyled = styled.nav``;
 
 export const MenuStyled = styled.ul`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   margin: 0 auto;
+
+  ${media.lg`
+    flex-direction: column;
+  `}
 `;
 
 export const Close = styled(CloseSvg)`
