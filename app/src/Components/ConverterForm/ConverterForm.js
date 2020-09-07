@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
+import moment from "moment";
 import uuid from "uuid";
 import { Form } from "react-final-form";
 import FieldCurrency from "./FieldCurrency";
@@ -17,7 +18,8 @@ import {
   HistoryStyled,
 } from "./ConverterForm.styled";
 
-const BASE_URL = "https://api.exchangeratesapi.io/latest";
+const BASE_URL = "https://free.currconv.com/api/v7";
+const API_KEY = "bebe1c815b55fb796dc4";
 
 const ConverterForm = ({ title, showHistory }) => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
@@ -30,15 +32,17 @@ const ConverterForm = ({ title, showHistory }) => {
   const [itemsList, setItemsList] = useState([]);
 
   useEffect(() => {
-    fetch(BASE_URL)
+    fetch(`${BASE_URL}/currencies?apiKey=${API_KEY}&date=${date}`)
       .then((res) => res.json())
       .then((data) => {
-        const initCurrencyFrom = Object.keys(data.rates)[19];
-        setCurrencyOptions([data.base, ...Object.keys(data.rates)].sort());
-        setCurrencyFrom(data.base);
-        setCurrencyTo(initCurrencyFrom);
-        setDate(data.date);
-        // console.log("data:", data);
+        const initCurrencyFrom = "EUR";
+        const initCurrencyTo = "PLN";
+
+        setCurrencyOptions([...Object.keys(data.results)].sort());
+        setCurrencyFrom(initCurrencyFrom);
+        setCurrencyTo(initCurrencyTo);
+        setDate(moment(date).format("DD-MM-YYYY"));
+        console.log("data:", data);
       });
   }, []);
 
@@ -49,11 +53,12 @@ const ConverterForm = ({ title, showHistory }) => {
 
   // fire conversion on submit
   const handleConvert = () => {
+    let query = `${currencyFrom}_${currencyTo}`;
     if (amount != null && currencyFrom !== currencyTo) {
-      fetch(`${BASE_URL}?base=${currencyFrom}&symbols=${currencyTo}`)
+      fetch(`${BASE_URL}/convert?q=${query}&compact=ultra&apiKey=${API_KEY}`)
         .then((res) => res.json())
         .then((data) => {
-          const convertedAmount = amount * data.rates[currencyTo];
+          const convertedAmount = amount * data[query];
           if (convertedAmount > 0) {
             setConvertedAmount(convertedAmount.toFixed(2));
           }
@@ -63,11 +68,14 @@ const ConverterForm = ({ title, showHistory }) => {
 
   // fire conversion on currency switch
   const handleConvertReverse = () => {
+    let queryReversed = `${currencyTo}_${currencyFrom}`;
     if (amount != null && currencyFrom !== currencyTo) {
-      fetch(`${BASE_URL}?base=${currencyTo}&symbols=${currencyFrom}`)
+      fetch(
+        `${BASE_URL}/convert?q=${queryReversed}&compact=ultra&apiKey=${API_KEY}`
+      )
         .then((res) => res.json())
         .then((data) => {
-          const convertedAmount = amount * data.rates[currencyFrom];
+          const convertedAmount = amount * data[queryReversed];
           setConvertedAmount(convertedAmount.toFixed(2));
         });
     }
