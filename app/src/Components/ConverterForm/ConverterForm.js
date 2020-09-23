@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import moment from "moment";
 import uuid from "uuid";
 import { Form } from "react-final-form";
+import { BASE_URL, API_KEY, handleErrors} from "Utils/api";
 import FieldCurrency from "./FieldCurrency";
 import FieldSelectBox from "./FieldSelectBox";
 import {
@@ -17,9 +18,6 @@ import {
   Title,
   HistoryStyled,
 } from "./ConverterForm.styled";
-
-const BASE_URL = "https://free.currconv.com/api/v7";
-const API_KEY = "bebe1c815b55fb796dc4";
 
 const ConverterForm = ({ title, showHistory }) => {
   const [currencyOptions, setCurrencyOptions] = useState([]);
@@ -56,12 +54,15 @@ const ConverterForm = ({ title, showHistory }) => {
     let query = `${currencyFrom}_${currencyTo}`;
     if (amount != null && currencyFrom !== currencyTo) {
       fetch(`${BASE_URL}/convert?q=${query}&compact=ultra&apiKey=${API_KEY}`)
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => {
           const convertedAmount = amount * data[query];
           if (convertedAmount > 0) {
             setConvertedAmount(convertedAmount.toFixed(2));
           }
+        })
+        .catch((error) => {
+          console.log(error)
         });
     }
   };
@@ -73,10 +74,13 @@ const ConverterForm = ({ title, showHistory }) => {
       fetch(
         `${BASE_URL}/convert?q=${queryReversed}&compact=ultra&apiKey=${API_KEY}`
       )
-        .then((res) => res.json())
+        .then(handleErrors)
         .then((data) => {
           const convertedAmount = amount * data[queryReversed];
           setConvertedAmount(convertedAmount.toFixed(2));
+        })
+        .catch((error) => {
+          console.log(error)
         });
     }
   };
